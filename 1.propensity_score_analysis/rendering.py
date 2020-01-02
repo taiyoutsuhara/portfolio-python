@@ -12,10 +12,14 @@ import numpy as np
 import pandas as pd
 from dash.dependencies import Input, Output
 
+
 # ディレクトリ設定 #
 current_directory = os.getcwd()
-directory_of_psa = '\\1.propensity_score_analysis\\'
-main_directory = current_directory + directory_of_psa
+# Pythonコンソールから実行したいとき、次の2行をアンコメントする。
+# directory_of_psa = '\\1.propensity_score_analysis\\'
+# main_directory = current_directory + directory_of_psa
+# Runメニューから実行したいとき、次の1行をアンコメントする。
+main_directory = current_directory
 os.chdir(main_directory)  # '/1.propensity_score_analysis/'を主WDにする。
 changed_main_directory = os.getcwd()
 sys.path.append(changed_main_directory + "\\")
@@ -133,7 +137,8 @@ app.layout = html.Div([
 # 描画用データを取り出すためのパラメータ
 last_cell_number_ex_non_use = coes['diff.data_F'].__len__() - 1
 
-# レイアウトを呼び出し、各パーツをアプリケーションに表示する。
+
+# レイアウトを呼び出し、各パーツをアプリケーションに表示する。 #
 @app.callback(Output("comparison", "figure"), [Input("1st", "value"),
                                                Input("2nd", "value"),
                                                Input('3rd', 'value')])
