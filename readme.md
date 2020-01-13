@@ -12,7 +12,7 @@ PyCharmでリポジトリのクローン先となるプロジェクトフォル�
 
 クローン先を用意した後、以下の手順を実行します。
 * Gitを使用の場合：クローン先のディレクトリにおいて`git clone`コマンドを実行します。Sourcetree等のGUIクライアントでも同機能があります。
-* そうでない場合：`Clone or Download`の`Download ZIP`をクリックし、クローン先のディレクトリに展開します。  
+* そうでない場合：`Clone or download`の`Download ZIP`をクリックし、クローン先のディレクトリに展開します。  
 
 Pythonのライブラリで足りないものを、あらかじめインストールします。
 
@@ -32,8 +32,7 @@ Rで実装した「サービス比較システム」をPythonに移植したも�
 ##### `rendering.py`
 Shiny Dashboardによるサービス比較と可視化であり、Pythonに移植するときDashを代用しています。
 
-データ構造仕様とフローチャートは概ね、R版サービス比較システムと同様です。R版サービス比較システムの詳細は下記URLのとおりです。
-
+データ構造仕様とフローチャートは概ね、R版サービス比較システムと同様です。R版サービス比較システムの詳細は下記URLのとおりです。  
 https://github.com/taiyoutsuhara/portfolio-r/blob/master/1.propensity_score_analysis/readme_ja.md
 
 #### R版との相違
@@ -44,9 +43,8 @@ R版ではfstが使用されていますが、Python版ではいずれもcsvに�
 R版は`spec.data_frame_for_ggplot2.csv`のとおりですが、Python版は辞書型であり、以下のkeyと要素を含んでいます。
 
 グラフ用描画データ形式はリストであり、サービスの種類はN次元配列（ndarray）です。
-
 ```
-{'x': サービスの種類（non-useを表すものを除く。）,
-'y': グラフ用描画データ[比較用序数][範囲],
-'type': 'bar', 'name': 比較用序数}
+{'x': サービスの種類（non-useを表すカテゴリを除外）,
+'y': グラフ用描画データ[比較したいデータの選択可能番号][範囲],
+'type': 'bar', 'name': 比較用序数（'1st', '2nd' or '3rd'）}
 ```
