@@ -65,9 +65,10 @@ for ba in range(0, files_in_data_format.__len__()):
     data_for_gps = pd.read_csv(files_in_data_format[ba])
     obj_var_of_gps = data_for_gps['Q4.ServiceType']  # 目的変数はサービスの種類
     # 説明変数はダミーデータ変換済属性であるが、以下の処理をする必要がある。
-    # 区別の付くカテゴリを除外する。
-    required_column_number_of_exp_vars = [1, 2, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17]
-    exp_vars_of_gps = data_for_gps.iloc[:, required_column_number_of_exp_vars]
+    # CustomerID, Q4, Q5、ならびに区別の付くカテゴリを除外する。
+    column_names_exceptions = 'CustomerID|Q4.ServiceType|Q5.CustomerDollar|F1.Senior|F2.South|F3.Others'
+    exceptions_do_not_contain = np.logical_not(data_for_gps.columns.str.contains(column_names_exceptions))
+    exp_vars_of_gps = data_for_gps.iloc[:, exceptions_do_not_contain]
     # 全部0の説明変数を除外する。
     all_zero_or_not = []
     trimmed_exp_vars_of_gps = []
@@ -140,7 +141,7 @@ for ba in range(0, files_in_gps_written.__len__()):
     data_for_ipw = pd.read_csv(files_in_gps_written[ba])
     gps_in_this_data = data_for_ipw.iloc[:, range_of_gps]
     service_type_in_this_data = data_for_ipw['Q4.ServiceType']
-    IPW = pd.DataFrame({'IPW': [0]*data_for_ipw.shape[0]})
+    IPW = pd.DataFrame({'IPW': [0] * data_for_ipw.shape[0]})
     # IPWを計算する。
     for st in range(0, Service_Type_sorted.__len__()):
         gps_split = gps_in_this_data.iloc[:, st][service_type_in_this_data == Service_Type_sorted[st]]
