@@ -48,3 +48,7 @@ R版は`spec.data_frame_for_ggplot2.csv`のとおりですが、Python版は辞�
 'y': グラフ用描画データ[比較したいデータの選択可能番号][範囲],
 'type': 'bar', 'name': 比較用序数（'1st', '2nd' or '3rd'）}
 ```
+
+##### ダッシュボードの画面構成
+* R (Shiny Dashboard) 版：複数ページ
+* Python (Dash) 版：単一ページ
