@@ -69,12 +69,21 @@ for ba in range(0, files_in_data_format.__len__()):
     column_names_exceptions = 'CustomerID|Q4.ServiceType|Q5.CustomerDollar|F1.Senior|F2.South|F3.Others'
     exceptions_do_not_contain = np.logical_not(data_for_gps.columns.str.contains(column_names_exceptions))
     exp_vars_of_gps = data_for_gps.iloc[:, exceptions_do_not_contain]
-    # 全部0の説明変数を除外する。
+    # 全部0, 1の説明変数を除外する。但し、後者はダミー変数のみである。
     all_zero_or_not = []
     trimmed_exp_vars_of_gps = []
+    column_number_of_continuous_values = exp_vars_of_gps.columns.get_loc('Q2.FormerCustomerDollar')
     for ec in range(0, exp_vars_of_gps.columns.__len__()):
         all_zero_or_not.append(sum(exp_vars_of_gps.iloc[:, ec]))
-        if all_zero_or_not[ec] != 0:  # 全部0でなかったら、説明変数に採用する。
+        continuous_values_or_not = (ec == column_number_of_continuous_values)
+        # 連続データの場合、全部0ではないかどうかだけで判断する。
+        if continuous_values_or_not:
+            condition_of_not_all_zero_and_length = (all_zero_or_not[ec] != 0)
+        else:
+            condition_of_not_all_zero_and_length = (all_zero_or_not[ec] != 0 &
+                                                    all_zero_or_not[ec] != data_for_gps.shape[0])
+        # 最終的に採用する説明変数
+        if condition_of_not_all_zero_and_length:
             trimmed_exp_vars_of_gps.append(exp_vars_of_gps.iloc[:, ec])
     # 多項ロジスティック回帰モデルでGPSを推定し、data_for_gpsにGPSを結合する。
     df_trimmed_exp_vars_of_gps = pd.DataFrame(trimmed_exp_vars_of_gps)
