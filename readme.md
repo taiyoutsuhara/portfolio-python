@@ -6,12 +6,12 @@
 * 常体：各成果物のMarkdown
 
 ### 実行手順
-実行環境にAnaconda3とPyCharmがインストールされていることを前提とします。
+実行環境にAnaconda3, PyCharm, R, RStudioがインストールされていることを前提とします。
 
-PyCharmでリポジトリのクローン先となるプロジェクトフォルダを作成します。プロジェクトフォルダ名とリポジトリ名とを揃えておくと便利です。
+PyCharmでリポジトリのクローン先となるプロジェクトフォルダを作成します。プロジェクトフォルダ名とリポジトリ名とを揃えておくと便利です。作成後RStudioによって、PyCharmのプロジェクトフォルダと同名のProjectを作成します。Rprojファイルがあるディレクトリをワーキングディレクトリとして認識します。
 
 クローン先を用意した後、以下の手順を実行します。
-* Gitを使用の場合：クローン先のディレクトリにおいて`git clone`コマンドを実行します。Sourcetree等のGUIクライアントでも同機能があります。
+* Gitを使用の場合：作成したクローン先プロジェクトフォルダを、一度他のディレクトリに移動してから、クローン先のディレクトリにおいて`git clone`コマンドを実行します。Sourcetree等のGUIクライアントでも同機能があります。実行後、移動済クローン先プロジェクトフォルダに残っているものを、`git clone`したリポジトリの直下に移動します。なお、`.gitignore`は`git clone`したものを正とします。
 * そうでない場合：`Clone or download`の`Download ZIP`をクリックし、クローン先のディレクトリに展開します。  
 
 Pythonのライブラリで足りないものを、あらかじめインストールします。
@@ -34,6 +34,12 @@ Shiny Dashboardによるサービス比較と可視化であり、Pythonに移�
 
 データ構造仕様とフローチャートは概ね、R版サービス比較システムと同様です。R版サービス比較システムの詳細は下記URLのとおりです。  
 https://github.com/taiyoutsuhara/portfolio-r/blob/master/1.propensity_score_analysis/readme_ja.md
+
+一般化傾向スコア推定用整形済データと分割済データの用意は、次の手順によります。
+1. "/portfolio-python/1.propensity_score_analysis/"配下に"data_format_fst"フォルダと"data_format"フォルダを新規作成します。
+1. "/portfolio-r/1.propensity_score_analysis/"配下の`00_main.R`において、先頭から`01_dataformat.R`までを行選択し実行します。
+1. "/portfolio-r/1.propensity_score_analysis/dataformat/"配下に出来上がったfstファイルを、"/portfolio-python/1.propensity_score_analysis/data_format_fst/"配下にコピーします。
+1. "/portfolio-python/1.propensity_score_analysis/"配下の`convert_fst_to_csv.R`で、整形済データの形式をfstからcsvに変換します。出力先は"/portfolio-python/1.propensity_score_analysis/data_format/"です。
 
 #### R版との相違
 ##### 途中のデータ出力ファイル形式
