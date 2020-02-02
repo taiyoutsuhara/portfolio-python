@@ -68,7 +68,7 @@ https://github.com/taiyoutsuhara/portfolio-r/blob/master/1.propensity_score_anal
 ![dash_1_item](1.propensity_score_analysis/dash_image/dash_1_item.png)
 次に、中年層（Selectable number = 2）をターゲットとしたとき、メリットを最大化できそうなサービス戦略の予想を想定します。下のように、メリット最大化できそうなサービスが、全体と中年層とで異なっていることが判ります。
 ![dash_2_items](1.propensity_score_analysis/dash_image/dash_2_items.png)
-最後に、中年層と老年層（Selectable number = 6）とで、サービス戦略を変えた方が良いのかどうか判断に迷っている場合を考えてみます。下のグラフより今回は、サービス戦略を変えると若干プラスになると予想されます。
+最後に、中年層と老年層（Selectable number = 6）とで、サービス戦略を変えた方が良いのかどうか判断に迷っている場合を考えてみます。下のグラフだけで判断すると、両者でサービス戦略を変えた方が若干プラスになると予想されます。
 ![dash_3_items](1.propensity_score_analysis/dash_image/dash_3_items.png)
 
 #### R版との相違
