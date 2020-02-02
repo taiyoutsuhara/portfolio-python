@@ -21,7 +21,21 @@ Rで実装した「サービス比較システム」をPythonに移植したも�
 1. 一般化傾向スコア分析によるサービス導入効果の予測
 1. Dashによるサービス比較の容易化
 
-移植先は`estimation.py`と`rendering.py`の2つであり、Rで実装したサブルーチンのうち次のものを移植しています。
+R版と同様、設計と実装にあたって、次の事項を想定しています。
+
+##### シーズ
+1. 効果を正しく推定するため共変量調整※が必要であるが、共変量数と組合せの数は指数関係にあること  
+※介入群（例：サービス利用者）と対照群（例：非利用者）とで共通に得られる変数を両群で不偏にすること
+1. レポーティングにおいて、ExcelといったOSに依存しがちなOfficeスイートに拠ると、シームレス化や大規模データ処理が難しいこと
+
+##### ニーズ
+1. 早急に予想を知り戦略のアウトラインを大まかに書くこと
+1. 2種類以上のサービスの優先順位が付けがたく、慎重を期したいこと
+1. ターゲット（年代、居住地方、職業等の属性）別にメリット最大化できそうなサービスの目星
+1. 複数属性（例えば若年×東日本×学生）に有効なサービスの予想
+
+#### 移植先
+`estimation.py`と`rendering.py`の2つであり、Rで実装したサブルーチンのうち次のものを移植しています。
 
 ##### `estimation.py`
 * 一般化傾向スコアの推定
@@ -40,6 +54,22 @@ https://github.com/taiyoutsuhara/portfolio-r/blob/master/1.propensity_score_anal
 1. "/portfolio-r/1.propensity_score_analysis/"配下の`00_main.R`において、先頭から`01_dataformat.R`までを行選択し実行します。
 1. "/portfolio-r/1.propensity_score_analysis/dataformat/"配下に出来上がったfstファイルを、"/portfolio-python/1.propensity_score_analysis/data_format_fst/"配下にコピーします。
 1. "/portfolio-python/1.propensity_score_analysis/"配下の`convert_fst_to_csv.R`で、整形済データの形式をfstからcsvに変換します。出力先は"/portfolio-python/1.propensity_score_analysis/data_format/"です。
+
+#### Dashのイメージ
+起動時の画面は以下のとおりであり、次のコンポーネントを含みます。
+* Information：各サービスの概要
+* Available Combinations：選択可能パターン表。この例では比較したい属性の番号（Selectable number）、年代、居住地方、職業、縮退の有無がまとまっています。"No comparison"は比較なし、"Not selected"は該当属性による分析データ分割がないことを意味します。
+* 選んだ属性別予測結果のグラフ
+
+入力ボックスにSelectable numberを入力すると、属性（年代、居住地方、職業）間で比較できます。上限は3種類です。使用例として、メリット最大化できそうなサービス戦略の目星を、属性別に付けていくことが考えられます。
+![dash_initial](1.propensity_score_analysis/dash_image/dash_initial.png)
+属性を分けないとき（全体、Selectable number = 1）の分析結果だけ見たい場合を想定します。このときの使用例として、年代、居住地方、職業のいずれにも依存しそうにないサービス※戦略の選定が挙げられます。  
+※このようなサービスは、希有ではないかと推測します。
+![dash_1_item](1.propensity_score_analysis/dash_image/dash_1_item.png)
+次に、中年層（Selectable number = 2）をターゲットとしたとき、メリットを最大化できそうなサービス戦略の予想を想定します。下のように、メリット最大化できそうなサービスが、全体と中年層とで異なっていることが判ります。
+![dash_2_items](1.propensity_score_analysis/dash_image/dash_2_items.png)
+最後に、中年層と老年層（Selectable number = 6）とで、サービス戦略を変えた方が良いのかどうか判断に迷っている場合を考えてみます。下のグラフだけで判断すると、両者でサービス戦略を変えた方が若干プラスになると予想されます。
+![dash_3_items](1.propensity_score_analysis/dash_image/dash_3_items.png)
 
 #### R版との相違
 ##### 途中のデータ出力ファイル形式
